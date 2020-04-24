@@ -1,0 +1,43 @@
+@startuml mediastreaminterface
+interface MediaSourceInterface
+interface MediaStreamTrackInterface
+interface VideoTrackSourceInterface
+interface AudioProcessorInterface
+interface VideoSinkInterface
+interface VideoTrackInterface
+
+interface AudioTrackSinkInterface
+interface AudioSourceInterface
+interface AudioTrackInterface
+interface MediaStreamInterface
+
+class Notifier
+class MediaStream
+class MediaStreamTrack
+class AudioTrack
+class VideoTrack
+
+MediaSourceInterface <|-- VideoTrackSourceInterface
+
+MediaStreamTrackInterface <|-- VideoTrackInterface
+VideoSinkInterface *-- VideoTrackInterface
+VideoTrackSourceInterface *-- VideoTrackInterface
+
+MediaSourceInterface <|-- AudioSourceInterface
+MediaStreamTrackInterface <|-- AudioTrackInterface
+AudioTrackSinkInterface *-- AudioSourceInterface
+AudioTrackSinkInterface *-- AudioTrackInterface
+AudioProcessorInterface *-- AudioTrackInterface
+AudioSourceInterface *-- AudioTrackInterface
+
+AudioTrackInterface *-- MediaStreamInterface
+VideoTrackInterface *-- MediaStreamInterface
+
+MediaStreamInterface <|-- Notifier
+Notifier <|-- MediaStream
+
+Notifier <|-- MediaStreamTrack
+MediaStreamTrack <|-- AudioTrack
+MediaStreamTrack <|-- VideoTrack
+
+@enduml

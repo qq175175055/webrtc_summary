@@ -139,3 +139,34 @@ private:
 6. ice协商后，调用AddIceCandidate()向ice agent添加一个ice candidate。进而调用UseCandidate()。
 7. 调用AddStream()添加local stream到local_streams_。遍历并添加local stream中的音视频track。
 8. 调用CreateDataChannel()创建DataChannel，便于后续发送数据。常用于后台传输内容, 例如: 图像, 文件传输, 聊天文字, 游戏数据更新包, 等等。
+
+## 4. PeerConnection中的MediaStream&Track
+
+### 4.1 MediaStream & MediaTrack & MediaSource 关系图
+
+![media_stream_interface_class](./links/MediaStream/mediastreaminterface.png)
+
+### 4.2 MediaStream
+
+核心流程：
+
+1. 通过PeerConnectionFactory::CreateLocalMediaStream()根据stream_id创建MediaStream对象
+2. 调用AddTrack()添加音频track，后续可以调用RemoveTrack()移除音频track，此时会触发FireOnChanged()
+3. 调用AddTrack()添加视频track，后续可以调用RemoveTrack()移除视频track，此时会触发FireOnChanged()
+4. 其他诸如FindAudioTrack()、FindVideoTrack()、GetAudioTracks和GetVideoTracks可以返回特定或者全部的track
+
+### 4.3 AudioTrack
+
+核心流程：
+
+1. 通过PeerConnectionFactory::CreateAudioSource()创建audio_source
+2. 通过PeerConnectionFactory::CreateAudioTrack(audio_source)创建audio_track
+3. 调用AddSink()为audio_source添加audio_sink，后续可以调用RemoveSink()移除audio_sink
+
+### 4.4 VideoTrack
+
+核心流程：
+
+1. 通过PeerConnectionFactory::CreateVideoSource()创建video_source
+2. 通过PeerConnectionFactory::CreateVideoTrack(video_source)创建video_track
+3. 调用AddOrUpdateSink()为video_source添加video_sink，后续可以调用RemoveSink()移除video_sink
