@@ -127,13 +127,13 @@ private:
 4. 调用SetLocalDescription()设置local sdp，进而调用ApplyLocalDescription()。SetLocalDescription完成后调用JsepTransportController::MaybeStartGathering()进行ice收集。
     - ApplyLocalDescription，应用local desc，可能是offer，也可能是answer
       - 调用PushdownTransportDescription，将desc透传到JsepTransportController
-      - 如果desc的类型是offer，创建Voice/Video Channel
+      - 如果desc的类型是offer，调用PeerConnection::CreateChannels()，**创建Voice/Video Channel**
       - 更新信令状态，如kHaveLocalOffer/kHaveRemoteOffer等
       - 调用**PushdownMediaDescription**，遍历transceivers_中的transceiver，调用其channel的**SetLocalContent()**
 5. offer/answer协商后，调用SetRemoteDescription()设置remote sdp，进而调用ApplyRemoteDescription()。回调OnSetRemoteDescriptionComplete()。
     - ApplyRemoteDescription，应用local desc，可能是offer，也可能是answer
       - PushdownTransportDescription，将desc透传到JsepTransportController
-      - 如果desc的类型是offer，创建Voice/Video Channel
+      - 如果desc的类型是offer，调用PeerConnection::CreateChannels()，**创建Voice/Video Channel**
       - 更新信令状态，如kHaveLocalOffer/kHaveRemoteOffer等
       - 调用**PushdownMediaDescription**，遍历transceivers_中的transceiver，调用其channel的**SetRemoteContent()**
 6. ice协商后，调用AddIceCandidate()向ice agent添加一个ice candidate。进而调用UseCandidate()。

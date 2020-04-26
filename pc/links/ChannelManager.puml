@@ -1,0 +1,53 @@
+@startuml channelmanager
+
+class ChannelManager
+class CompositeMediaEngine
+class WebRtcVoiceEngine
+class WebRtcVideoEngine
+
+class VoiceChannel
+class VideoChannel
+class BaseChannel
+
+class MediaChannel
+class VideoMediaChannel
+class VoiceMediaChannel
+
+class WebRtcVideoChannel
+class WebRtcVoiceMediaChannel
+
+MediaChannel <|-- VideoMediaChannel
+MediaChannel <|-- VoiceMediaChannel
+
+VideoMediaChannel <|-- WebRtcVideoChannel
+VoiceMediaChannel <|-- WebRtcVoiceMediaChannel
+
+BaseChannel <|-- VoiceChannel
+BaseChannel <|-- VideoChannel
+
+WebRtcVideoChannel <--* VideoChannel
+WebRtcVoiceMediaChannel <--* VoiceChannel
+
+VideoChannel <--* ChannelManager
+VoiceChannel <--* ChannelManager
+RtpDataChannel <--* ChannelManager
+CompositeMediaEngine <--* ChannelManager
+WebRtcVoiceEngine <--* CompositeMediaEngine
+WebRtcVideoEngine <--* CompositeMediaEngine
+
+interface MediaContentDescription
+class MediaContentDescriptionImpl
+class AudioContentDescription
+class VideoContentDescription
+class DataContentDescription
+
+MediaContentDescription <|-- MediaContentDescriptionImpl
+MediaContentDescriptionImpl <|-- AudioContentDescription
+MediaContentDescriptionImpl <|-- VideoContentDescription
+MediaContentDescriptionImpl <|-- DataContentDescription
+
+VideoContentDescription <--* VideoChannel
+AudioContentDescription <--* VoiceChannel
+DataContentDescription <--* RtpDataChannel
+
+@enduml

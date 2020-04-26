@@ -20,18 +20,18 @@ class VideoTrack
 MediaSourceInterface <|-- VideoTrackSourceInterface
 
 MediaStreamTrackInterface <|-- VideoTrackInterface
-VideoSinkInterface *-- VideoTrackInterface
-VideoTrackSourceInterface *-- VideoTrackInterface
+VideoSinkInterface <--* VideoTrackInterface
+VideoTrackSourceInterface <--* VideoTrackInterface
 
 MediaSourceInterface <|-- AudioSourceInterface
 MediaStreamTrackInterface <|-- AudioTrackInterface
-AudioTrackSinkInterface *-- AudioSourceInterface
-AudioTrackSinkInterface *-- AudioTrackInterface
-AudioProcessorInterface *-- AudioTrackInterface
-AudioSourceInterface *-- AudioTrackInterface
+AudioTrackSinkInterface <--* AudioSourceInterface
+AudioTrackSinkInterface <--* AudioTrackInterface
+AudioProcessorInterface <--* AudioTrackInterface
+AudioSourceInterface <--* AudioTrackInterface
 
-AudioTrackInterface *-- MediaStreamInterface
-VideoTrackInterface *-- MediaStreamInterface
+AudioTrackInterface <--* MediaStreamInterface
+VideoTrackInterface <--* MediaStreamInterface
 
 MediaStreamInterface <|-- Notifier
 Notifier <|-- MediaStream
