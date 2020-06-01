@@ -11,11 +11,21 @@ interface AudioSourceInterface
 interface AudioTrackInterface
 interface MediaStreamInterface
 
+interface StreamCollectionInterface
+
 class Notifier
 class MediaStream
 class MediaStreamTrack
 class AudioTrack
 class VideoTrack
+class LocalAudioSource
+class RemoteAudioSource
+
+class VideoTrackSource
+class VideoCapturerTrackSource
+class VideoRtpTrackSource
+
+class StreamCollection
 
 MediaSourceInterface <|-- VideoTrackSourceInterface
 
@@ -40,4 +50,12 @@ Notifier <|-- MediaStreamTrack
 MediaStreamTrack <|-- AudioTrack
 MediaStreamTrack <|-- VideoTrack
 
+AudioSourceInterface <|-- LocalAudioSource
+AudioSourceInterface <|-- RemoteAudioSource
+
+VideoTrackSourceInterface <|-- VideoTrackSource
+VideoTrackSource <|-- VideoCapturerTrackSource
+VideoTrackSource <|-- VideoRtpTrackSource
+
+StreamCollectionInterface <|-- StreamCollection
 @enduml

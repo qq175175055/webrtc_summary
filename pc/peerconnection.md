@@ -191,3 +191,49 @@ private:
 1. 通过PeerConnectionFactory::CreateVideoSource()创建video_source
 2. 通过PeerConnectionFactory::CreateVideoTrack(video_source)创建video_track
 3. 调用AddOrUpdateSink()为video_source添加video_sink，后续可以调用RemoveSink()移除video_sink
+
+### 4.7 LocalAudioSource
+
+核心流程：
+
+1. 通过PeerConnectionFactory::CreateAudioSource()创建source
+   - 调用LocalAudioSource::Create()
+2. 后续可以通过AddSink()/RemoveSink()等接口进行操作source
+
+### 4.8 RemoteAudioSource
+
+核心流程：
+
+1. 通过AudioRtpReceiver的构造函数创建RemoteAudioSource对象source_
+2. 此source_还用于创建AudioTrack用于处理接收的数据
+3. 通过source_->Start(media_channel_, *ssrc_);绑定ssrc_对应的数据与source_的关系
+4. 从而最终形成AudioDataProxy -> RemoteAudioSource -> AudioTrack的数据链路
+
+### 4.9 VideoCapturerTrackSource
+
+核心流程：
+
+1. 通过PeerConnectionFactory::CreateVideoSource()创建VideoCapturerTrackSource对象，其中一个主要的参数就是VideoCapturer对象capture
+2. 后续可以通过类似AddOrUpdateSink()/RemoveSink()等添加和移除sink
+3. 还可以通过is_screencast()判断是否是屏幕共享
+
+### 4.10 VideoRtpTrackSource
+
+核心流程：
+
+1. 通过VideoRtpReceiver构造函数创建VideoRtpTrackSource对象source_
+2. 通过source_创建VideoTrack对象track_
+3. 通过source_->SetState()设置状态
+4. 后续可以通过类似AddOrUpdateSink()/RemoveSink()等添加和移除sink
+5. 通过sink()返回VideoSinkInterface<VideoFrame>对象
+
+### 4.11 StreamCollection
+
+核心流程：
+
+1. 通过PeerConnection构造函数创建local_streams_和remote_streams_，这两者都是StreamCollection对象
+2. 通过count()返回内部streams的数量
+3. 通过at(size_t index)返回index对应的stream
+4. 通过find(const std::string& id)查找id对应的stream
+5. 通过AddStream()/RemoteStream()添加和删除对应的stream
+6. 通过FindAudioTrack()/FindVideoTrack()查找对应id的track
