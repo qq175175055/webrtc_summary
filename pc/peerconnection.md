@@ -146,6 +146,13 @@ private:
 
 ![media_stream_interface_class](./links/MediaStream/mediastreaminterface.png)
 
+### 4.2 MediaStreamTrackInterface
+
+* kind()：返回kAudioKind或者kVideoKind字符串
+* id()：返回track_id
+* enabled()/set_enabled(bool enable)：diabled track会产生静音或者纯黑图像
+* state()：返回kLive或者kEnded
+
 ### 4.2 MediaStream
 
 核心流程：
@@ -155,7 +162,14 @@ private:
 3. 调用AddTrack()添加视频track，后续可以调用RemoveTrack()移除视频track，此时会触发FireOnChanged()
 4. 其他诸如FindAudioTrack()、FindVideoTrack()、GetAudioTracks和GetVideoTracks可以返回特定或者全部的track
 
-### 4.3 AudioTrack
+### 4.3 AudioTrackInterface
+
+* GetSource()：返回AudioSourceInterface对象
+* AddSink(AudioTrackSinkInterface* sink)/RemoveSink(AudioTrackSinkInterface* sink)：添加/移除sink
+* GetSignalLevel(int* level)：获取signal level
+* GetAudioProcessor()：获取AudioProcessorInterface对象
+
+### 4.4 AudioTrack
 
 核心流程：
 
@@ -163,7 +177,14 @@ private:
 2. 通过PeerConnectionFactory::CreateAudioTrack(audio_source)创建audio_track
 3. 调用AddSink()为audio_source添加audio_sink，后续可以调用RemoveSink()移除audio_sink
 
-### 4.4 VideoTrack
+### 4.5 VideoTrackInterface
+
+* AddOrUpdateSink(rtc::VideoSinkInterface<VideoFrame>* sink, const rtc::VideoSinkWants& wants)：添加或者更新sink
+* RemoveSink(rtc::VideoSinkInterface<VideoFrame>* sink)：移除sink
+* GetSource()：返回VideoTrackSourceInterface对象
+* content_hint()/set_content_hint(ContentHint hint)：返回或者设置content hint，content的内容比如video/text等，可以针对性的优化
+
+### 4.6 VideoTrack
 
 核心流程：
 

@@ -1,0 +1,17 @@
+@startuml rtp_transport
+
+interface RtpTransportInterface
+interface SrtpTransportInterface
+interface RtpTransportInternal
+
+class RtpTransport
+class SrtpTransport
+class DtlsSrtpTransport
+
+RtpTransport <|-- SrtpTransport
+SrtpTransport <|-- DtlsSrtpTransport
+RtpTransportInternal <|-- RtpTransport
+SrtpTransportInterface <|-- RtpTransportInternal
+RtpTransportInterface <|-- SrtpTransportInterface
+
+@enduml
