@@ -40,13 +40,10 @@ AudioTrackSinkInterface <--* AudioTrackInterface
 AudioProcessorInterface <--* AudioTrackInterface
 AudioSourceInterface <--* AudioTrackInterface
 
-AudioTrackInterface <--* MediaStreamInterface
-VideoTrackInterface <--* MediaStreamInterface
-
-MediaStreamInterface <|-- Notifier
 Notifier <|-- MediaStream
 
-Notifier <|-- MediaStreamTrack
+AudioTrackInterface <|-- MediaStreamTrack
+VideoTrackInterface <|-- MediaStreamTrack
 MediaStreamTrack <|-- AudioTrack
 MediaStreamTrack <|-- VideoTrack
 
