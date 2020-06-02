@@ -1,0 +1,42 @@
+@startuml rtp_transceiver
+
+interface RtpTransceiverInterface
+interface RtpSenderInterface
+interface RtpReceiverInterface
+
+class RtpTransceiver
+interface RtpSenderInternal
+interface RtpReceiverInternal
+class BaseChannel
+
+class VoiceMediaChannel
+class VideoMediaChannel
+
+class AudioRtpSender
+class VideoRtpSender
+
+class AudioRtpReceiver
+class VideoRtpReceiver
+
+
+RtpTransceiverInterface <|-- RtpTransceiver
+RtpSenderInterface <--* RtpTransceiver
+RtpReceiverInterface <--* RtpTransceiver
+BaseChannel <--* RtpTransceiver
+
+RtpSenderInterface <|-- RtpSenderInternal
+RtpReceiverInterface <|-- RtpReceiverInternal
+
+VoiceMediaChannel <--* RtpSenderInternal
+VideoMediaChannel <--* RtpSenderInternal
+
+VoiceMediaChannel <--* RtpReceiverInternal
+VideoMediaChannel <--* RtpReceiverInternal
+
+RtpSenderInternal <|-- AudioRtpSender
+RtpSenderInternal <|-- VideoRtpSender
+
+RtpReceiverInternal <|-- AudioRtpReceiver
+RtpReceiverInternal <|-- VideoRtpReceiver
+
+@enduml
