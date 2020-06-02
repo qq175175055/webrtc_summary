@@ -1,0 +1,31 @@
+@startuml stats_collector
+
+interface IdBase
+
+class BandwidthEstimationId
+class TypedId
+class TypedIntId
+class IdWithDirection
+class CandidateId
+class ComponentId
+class CandidatePairId
+
+IdBase <|-- BandwidthEstimationId
+IdBase <|-- TypedId
+IdBase <|-- TypedIntId
+TypedId <|-- IdWithDirection
+TypedId <|-- CandidateId
+IdBase <|-- ComponentId
+ComponentId <|-- CandidatePairId
+
+class StatsReport
+class StatsCollection
+
+IdBase <--* StatsReport
+StatsReport <--* StatsCollection
+
+class StatsCollector
+
+StatsCollection <--* StatsCollector
+
+@enduml
