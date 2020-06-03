@@ -1,0 +1,58 @@
+@startuml call
+
+interface call
+class internal::call
+class RtpTransportControllerSend
+
+interface AudioSendStream
+class internal::AudioSendStream
+
+interface AudioReceiveStream
+class internal::AudioReceiveStream
+
+interface VideoSendStream
+class internal::VideoSendStream
+
+interface VideoReceiveStream
+class internal::VideoReceiveStream
+
+interface FlexfecReceiveStream
+class FlexfecReceiveStreamImpl
+
+interface PacketReceiver
+
+interface BitrateAllocationStrategy
+class AudioPriorityBitrateAllocationStrategy
+
+class BitrateAllocator
+
+interface RecoveredPacketReceiver
+
+call <|-- internal::call
+RtpTransportControllerSend <--* internal::call
+
+AudioSendStream <--* call
+AudioSendStream <|-- internal::AudioSendStream
+
+AudioReceiveStream <--* call
+AudioReceiveStream <|-- internal::AudioReceiveStream
+
+VideoSendStream <--* call
+VideoSendStream <|-- internal::VideoSendStream
+
+VideoReceiveStream <--* call
+VideoReceiveStream <|-- internal::VideoReceiveStream
+
+FlexfecReceiveStream <--* call
+FlexfecReceiveStream <|-- FlexfecReceiveStreamImpl
+
+PacketReceiver <|-- internal::call
+
+BitrateAllocationStrategy <--* call
+BitrateAllocationStrategy <|-- AudioPriorityBitrateAllocationStrategy
+
+BitrateAllocator <--* internal::call
+
+RecoveredPacketReceiver <|-- internal::call
+
+@enduml
