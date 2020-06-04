@@ -28,6 +28,26 @@ class BitrateAllocator
 
 interface RecoveredPacketReceiver
 
+class SsrcBindingObserver
+class RtcpDemuxer
+
+class RtpBitrateConfigurator
+
+interface RtpStreamReceiverControllerInterface
+class RtpStreamReceiverController
+
+interface RtpStreamReceiverInterface
+class Receiver
+
+interface EncodedImageCallback
+interface RtpVideoSenderInterface
+class RtpVideoSender
+
+interface RtpPacketSinkInterface
+class RtxReceiveStream
+
+interface Syncable
+
 call <|-- internal::call
 RtpTransportControllerSend <--* internal::call
 
@@ -54,5 +74,22 @@ BitrateAllocationStrategy <|-- AudioPriorityBitrateAllocationStrategy
 BitrateAllocator <--* internal::call
 
 RecoveredPacketReceiver <|-- internal::call
+
+SsrcBindingObserver <|-- RtcpDemuxer
+
+RtpBitrateConfigurator <--* RtpTransportControllerSend
+
+RtpStreamReceiverControllerInterface <|-- RtpStreamReceiverController
+RtpStreamReceiverInterface <|-- Receiver
+
+EncodedImageCallback <|-- RtpVideoSenderInterface
+RtpVideoSenderInterface <|-- RtpVideoSender
+
+RtpVideoSenderInterface <--* RtpTransportControllerSend
+
+RtpPacketSinkInterface <|-- RtxReceiveStream
+
+Syncable <|-- internal::AudioReceiveStream
+Syncable <|-- internal::VideoReceiveStream
 
 @enduml
