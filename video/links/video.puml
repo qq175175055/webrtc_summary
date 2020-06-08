@@ -1,0 +1,164 @@
+@startuml video
+
+interface RtcpRttStats
+interface Module
+class CallStats
+interface CallStatsObserver
+interface Clock
+interface ProcessThread
+
+RtcpRttStats <|-- CallStats
+Module <|-- CallStats
+CallStatsObserver <--* CallStats
+Clock <--* CallStats
+
+interface RtcpIntraFrameObserver
+class EncoderRtcpFeedback
+interface VideoStreamEncoderInterface
+
+RtcpIntraFrameObserver <|-- EncoderRtcpFeedback
+VideoStreamEncoderInterface <--* EncoderRtcpFeedback
+Clock <--* EncoderRtcpFeedback
+
+class VideoFrame
+interface CpuOveruseMetricsObserver
+class OveruseFrameDetector
+interface AdaptationObserverInterface
+class ProcessingUsage
+
+CpuOveruseMetricsObserver <--* OveruseFrameDetector
+AdaptationObserverInterface <--* OveruseFrameDetector
+VideoFrame <--* OveruseFrameDetector
+ProcessingUsage <--* OveruseFrameDetector
+
+class QualityThreshold
+class ReceiveStatisticsProxy
+interface VCMReceiveStatisticsCallback
+interface RtcpStatisticsCallback
+interface RtcpPacketTypeCounterObserver
+interface StreamDataCountersCallback
+class EncodedImage
+class RateStatistics
+class RateTracker
+class ReportBlockStats
+class MovingMaxCounter
+class MaxCounter
+class VideoQualityObserver
+
+QualityThreshold <--* ReceiveStatisticsProxy
+VCMReceiveStatisticsCallback <|-- ReceiveStatisticsProxy
+RtcpStatisticsCallback <|-- ReceiveStatisticsProxy
+RtcpPacketTypeCounterObserver <|-- ReceiveStatisticsProxy
+StreamDataCountersCallback <|-- ReceiveStatisticsProxy
+Clock <--* ReceiveStatisticsProxy
+VideoFrame <--* ReceiveStatisticsProxy
+EncodedImage <--* ReceiveStatisticsProxy
+RateStatistics <--* ReceiveStatisticsProxy
+RateTracker <--* ReceiveStatisticsProxy
+SampleCounter <--* ReceiveStatisticsProxy
+ReportBlockStats <--* ReceiveStatisticsProxy
+MovingMaxCounter <--* ReceiveStatisticsProxy
+MaxCounter <--* ReceiveStatisticsProxy
+VideoQualityObserver <--* ReceiveStatisticsProxy
+
+class RtpStreamsSynchronizer
+interface Syncable
+class StreamSynchronization
+
+Module <--* RtpStreamsSynchronizer
+Syncable <--* RtpStreamsSynchronizer
+StreamSynchronization <--* RtpStreamsSynchronizer
+
+class RtpVideoStreamReceiver
+interface RtpData
+interface RecoveredPacketReceiver
+interface RtpPacketSinkInterface
+interface VCMFrameTypeCallback
+interface VCMPacketRequestCallback
+interface video_coding::OnReceivedFrameCallback
+interface video_coding::OnCompleteFrameCallback
+interface Transport
+interface RtcpRttStats
+class PacketRouter
+interface ReceiveStatistics
+interface NackSender
+interface KeyFrameRequestSender
+class RtpPacketReceived
+
+RtpData <|-- RtpVideoStreamReceiver
+RecoveredPacketReceiver <|-- RtpVideoStreamReceiver
+RtpPacketSinkInterface <|-- RtpVideoStreamReceiver
+VCMFrameTypeCallback <|-- RtpVideoStreamReceiver
+VCMPacketRequestCallback <|-- RtpVideoStreamReceiver
+video_coding::OnReceivedFrameCallback <|-- RtpVideoStreamReceiver
+video_coding::OnCompleteFrameCallback <|-- RtpVideoStreamReceiver
+Transport <--* RtpVideoStreamReceiver
+RtcpRttStats <--* RtpVideoStreamReceiver
+ReceiveStatistics <--* RtpVideoStreamReceiver
+ReceiveStatisticsProxy <--* RtpVideoStreamReceiver
+NackSender <--* RtpVideoStreamReceiver
+KeyFrameRequestSender <--* RtpVideoStreamReceiver
+RtpPacketReceived <--* RtpVideoStreamReceiver
+
+class VideoStreamEncoder
+interface EncodedImageCallback
+interface VideoStreamEncoderObserver
+interface VideoSinkInterface
+interface EncoderSink
+interface VideoBitrateAllocationObserver
+
+VideoStreamEncoderInterface <|-- VideoStreamEncoder
+EncodedImageCallback <|-- VideoStreamEncoder
+AdaptationObserverInterface <|-- VideoStreamEncoder
+VideoStreamEncoderObserver <--* VideoStreamEncoder
+VideoSinkInterface <--* VideoStreamEncoder
+OveruseFrameDetector <--* VideoStreamEncoder
+EncoderSink <--* VideoStreamEncoder
+VideoBitrateAllocationObserver <--* VideoStreamEncoder
+
+class VideoStreamDecoder
+interface VCMReceiveCallback
+class VideoReceiver
+
+VCMReceiveCallback <|-- VideoStreamDecoder
+VCMReceiveStatisticsCallback <|-- VideoStreamDecoder
+
+VideoReceiver <--* VideoStreamDecoder
+VCMFrameTypeCallback <--* VideoStreamDecoder
+VCMPacketRequestCallback <--* VideoStreamDecoder
+ReceiveStatisticsProxy <--* VideoStreamDecoder
+VideoSinkInterface <--* VideoStreamDecoder
+
+
+class VideoSendStreamImpl
+interface BitrateAllocatorObserver
+interface OverheadObserver
+interface VCMProtectionCallback
+interface PacketFeedbackObserver
+interface VideoBitrateAllocationObserver
+class SendStatisticsProxy
+interface RtpTransportControllerSendInterface
+interface BitrateAllocatorInterface
+class SendDelayStats
+interface RtcpBandwidthObserver
+interface RtpVideoSenderInterface
+
+BitrateAllocatorObserver <|-- VideoSendStreamImpl
+OverheadObserver <|-- VideoSendStreamImpl
+VCMProtectionCallback <|-- VideoSendStreamImpl
+PacketFeedbackObserver <|-- VideoSendStreamImpl
+VideoBitrateAllocationObserver <|-- VideoSendStreamImpl
+SendStatisticsProxy <--* VideoSendStreamImpl
+RtpTransportControllerSendInterface <--* VideoSendStreamImpl
+BitrateAllocatorInterface <--* VideoSendStreamImpl
+SendDelayStats <--* VideoSendStreamImpl
+VideoStreamEncoderInterface <--* VideoSendStreamImpl
+RtcpBandwidthObserver <--* VideoSendStreamImpl
+RtpVideoSenderInterface <--* VideoSendStreamImpl
+
+interface SendPacketObserver
+class SendDelayStats
+
+SendPacketObserver <|-- SendDelayStats
+
+@enduml
