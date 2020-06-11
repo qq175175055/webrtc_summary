@@ -1,0 +1,40 @@
+@startuml common_video
+
+class BitrateAdjuster
+class RateStatistics
+
+RateStatistics <--* BitrateAdjuster
+
+class I420BufferPool
+class I420Buffer
+class I420BufferInterface
+interface PlanarYuv8Buffer
+interface PlanarYuvBuffer
+interface VideoFrameBuffer
+interface RefCountInterface
+
+RefCountInterface <|-- VideoFrameBuffer
+VideoFrameBuffer <|-- PlanarYuvBuffer
+PlanarYuvBuffer <|-- PlanarYuv8Buffer
+PlanarYuv8Buffer <|-- I420BufferInterface
+I420BufferInterface <|-- I420Buffer
+I420Buffer <|-- I420BufferPool
+
+class VideoFrame
+interface VideoSinkInterface
+class IncomingVideoStream
+class NewFrameTask
+class VideoRenderFrames
+class TaskQueue
+interface QueuedTask
+
+VideoFrame <|-- VideoSinkInterface
+VideoSinkInterface <|-- IncomingVideoStream
+QueuedTask <|-- NewFrameTask
+IncomingVideoStream <--* NewFrameTask
+VideoFrame <--* NewFrameTask
+NewFrameTask <--* IncomingVideoStream
+VideoRenderFrames <--* IncomingVideoStream
+TaskQueue <--* IncomingVideoStream
+
+@enduml
