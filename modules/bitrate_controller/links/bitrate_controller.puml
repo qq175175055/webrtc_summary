@@ -1,0 +1,18 @@
+@startuml bitrate_controller
+
+interface BitrateObserver
+interface BitrateController
+interface Module
+interface RtcpBandwidthObserver
+class BitrateControllerImpl
+class RtcpBandwidthObserverImpl
+class SendSideBandwidthEstimation
+
+BitrateObserver <--* BitrateController
+Module <|-- BitrateController
+RtcpBandwidthObserver <|-- BitrateController
+BitrateController <|-- BitrateControllerImpl
+RtcpBandwidthObserver <|-- RtcpBandwidthObserverImpl
+SendSideBandwidthEstimation <--* BitrateControllerImpl
+
+@enduml
