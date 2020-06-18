@@ -1,0 +1,64 @@
+@startuml congestion_controller
+
+interface NetworkChangedObserver
+
+class ReceiveSideCongestionController
+interface CallStatsObserver
+interface Module
+interface RemoteBitrateEstimator
+class WrappingBitrateEstimator
+interface RemoteBitrateObserver
+class RemoteEstimatorProxy
+
+Module <|-- ReceiveSideCongestionController
+CallStatsObserver <|-- ReceiveSideCongestionController
+RemoteBitrateEstimator <--* ReceiveSideCongestionController
+RemoteBitrateEstimator <|-- WrappingBitrateEstimator
+RemoteBitrateObserver <--* WrappingBitrateEstimator
+WrappingBitrateEstimator <--* ReceiveSideCongestionController
+RemoteEstimatorProxy <--* ReceiveSideCongestionController
+
+interface SendSideCongestionControllerInterface
+interface CallStatsObserver
+interface Module
+interface TransportFeedbackObserver
+interface PacketFeedbackObserver
+interface NetworkChangedObserver
+interface RtcpBandwidthObserver
+class SendSideCongestionController
+interface PacedSender
+
+CallStatsObserver <|-- SendSideCongestionControllerInterface
+Module <|-- SendSideCongestionControllerInterface
+TransportFeedbackObserver <|-- SendSideCongestionControllerInterface
+PacketFeedbackObserver <--* SendSideCongestionControllerInterface
+NetworkChangedObserver <--* SendSideCongestionControllerInterface
+RtcpBandwidthObserver <--* SendSideCongestionControllerInterface
+SendSideCongestionControllerInterface <|-- SendSideCongestionController
+PacedSender <--* SendSideCongestionController
+
+class TransportFeedbackAdapter
+class TransportFeedback
+class SendTimeHistory
+
+PacketFeedbackObserver <--* TransportFeedbackAdapter
+TransportFeedback <--* TransportFeedbackAdapter
+SendTimeHistory <--* TransportFeedbackAdapter
+
+class BitrateEstimator
+class AcknowledgedBitrateEstimator
+
+BitrateEstimator <--* AcknowledgedBitrateEstimator
+
+interface DelayIncreaseDetectorInterface
+class TrendlineEstimator
+class DelayBasedBwe
+class AimdRateControl
+class ProbeBitrateEstimator
+
+DelayIncreaseDetectorInterface <|-- TrendlineEstimator
+AimdRateControl <--* DelayBasedBwe
+ProbeBitrateEstimator <--* DelayBasedBwe
+DelayIncreaseDetectorInterface <--* DelayBasedBwe
+
+@enduml
