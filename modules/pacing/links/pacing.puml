@@ -1,0 +1,44 @@
+@startuml pacing
+
+interface Pacer
+interface Module
+interface RtpPacketSender
+
+RtpPacketSender <|-- Pacer
+Module <|-- Pacer
+
+interface PacketQueueInterface
+class PacketQueue
+class RoundRobinPacketQueue
+
+PacketQueueInterface <|-- PacketQueue
+PacketQueueInterface <|-- RoundRobinPacketQueue
+
+class BitrateProber
+class IntervalBudget
+class PacedSender
+interface PacketSender
+
+Pacer <|-- PacedSender
+Pacer <|-- PacedSender
+PacketSender <--* PacedSender
+PacketQueueInterface <--* PacedSender
+IntervalBudget <--* PacedSender
+BitrateProber <--* PacedSender
+
+class PacketRouter
+interface PacketSender
+interface TransportSequenceNumberAllocator
+interface RemoteBitrateObserver
+interface TransportFeedbackSenderInterface
+interface RtpRtcp
+interface RtcpFeedbackSenderInterface
+
+PacketSender <|-- PacketRouter
+TransportSequenceNumberAllocator <|-- PacketRouter
+RemoteBitrateObserver <|-- PacketRouter
+TransportFeedbackSenderInterface <|-- PacketRouter
+RtpRtcp <--* PacketRouter
+RtcpFeedbackSenderInterface <--* PacketRouter
+
+@enduml
